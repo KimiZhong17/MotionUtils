@@ -1,5 +1,5 @@
 '''
-XSense 动捕数据后处理与合并脚本
+XSens 动捕数据后处理与合并脚本
 written by Kimi Zhong
 Sept.24th, 2024
 '''
@@ -10,6 +10,15 @@ from common.bvh_manager import read_bvh, write_bvh
 from common.common import sorted_alphanumeric, write_csv
 
 def merge_bvh_files(bvh_files, out_prefix, csv_prefix, inv_fps_scale=1, normalization=False, max_frames_per_file=10000):
+    '''
+    Merge a bunch of BVH files
+    @param bvh_files[List[Str]]:        a list of bvh files to manipulate
+    @param out_prefix[Str]:             prefix of output BVH files
+    @param csv_prefix[Str]:             prefix of output CSV files
+    @param inv_fps_scale[Int]:          inverse scale of current FPS
+    @param normalization[Boolean]:      whether to normalize motion base on the first frame (except the T-pose frame) of each
+    @param max_frames_per_file[Int]:    maximum number of frames per file
+    '''
     bvh_files = sorted_alphanumeric(bvh_files)
     hierarchy = None
     motions = []

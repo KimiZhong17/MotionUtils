@@ -8,33 +8,48 @@ import os
 from tkinter import Tk, StringVar, Entry, Button, Label, Checkbutton, IntVar, Toplevel, messagebox
 from tkinter.filedialog import askdirectory
 from bvh_utils.combine_bvh import merge_bvh_files
+from common.common import return_to_main_menu
+
+# global variables
+task_name_var = None
+src_folder = None
+out_folder_var = None
+fps_scale = None
+normalize = None
+interface = None
 
 def OpenSrcFolder():
     selected_folder = askdirectory()
-    src_folder.set(selected_folder)
+    if selected_folder:  # 检查是否选择了文件夹
+        src_folder.set(selected_folder)
+    else:
+        messagebox.showinfo("信息", "未选择任何文件夹。")
 
 def OpenOutFolder():
     selected_folder = askdirectory()
-    out_folder_var.set(selected_folder)
+    if selected_folder:  # 检查是否选择了文件夹
+        out_folder_var.set(selected_folder)
+    else:
+        messagebox.showinfo("信息", "未选择任何文件夹。")
 
 def DoMerge():
     try:
         # 获取任务名称
         task_name = task_name_var.get().strip()
         if not task_name:
-            print("Please enter a task name.")
+            messagebox.showerror("Please enter a task name.")
             return
         
         # 获取源文件夹路径
         folder = src_folder.get()
         if not folder:
-            print("No folder selected.")
+            messagebox.showerror("No folder selected.")
             return
 
         # 获取输出文件夹路径
         out_folder = out_folder_var.get()
         if not out_folder:
-            print("No output folder selected.")
+            messagebox.showerror("No output folder selected.")
             return
         
         # 拼接输出文件路径
@@ -68,9 +83,14 @@ def DoMerge():
     except Exception as e:
         messagebox.showerror("错误", str(e))
 
-# Tkinter GUI 界面
-if __name__ == '__main__':
-    interface = Tk()
+# 打开BVH合并界面
+def open_bvh_merger(parent_window=None):
+    global interface, task_name_var, src_folder, out_folder_var, fps_scale, normalize
+    
+    if parent_window == None:
+        interface = Tk()
+    else:
+        interface = Toplevel(parent_window)
     interface.geometry("600x300")
     interface.title("BVH Merger")
     interface.configure(bg='#F5F5F5')
@@ -104,4 +124,10 @@ if __name__ == '__main__':
 
     # 处理按钮
     Button(interface, text="开始合并", bd=5, font=('黑体', 14, 'bold'), height=1, command=DoMerge).grid(row=5, column=0, columnspan=3, padx=10, pady=5, sticky="we")
-    interface.mainloop()
+    
+    if parent_window:
+        # 返回按钮
+        Button(interface, text="返回", bd=5, font=('黑体', 14, 'bold'), height=1, command=lambda: return_to_main_menu(interface, parent_window)).grid(row=6, column=0, columnspan=3, padx=10, pady=5, sticky="we")
+    
+    # interface.mainloop()
+    interface.protocol("WM_DELETE_WINDOW", lambda: (interface.destroy(), parent_window.deiconify()))

@@ -1,5 +1,6 @@
 import csv
 from re import split as resplit
+from tkinter import messagebox
 
 def sorted_alphanumeric(data):
     convert = lambda text: int(text) if text.isdigit() else text.lower()
@@ -11,3 +12,15 @@ def write_csv(csv_file, csv_headers, csv_data):
         csv_writer = csv.writer(csv_f)
         csv_writer.writerow(csv_headers)
         csv_writer.writerows(csv_data)
+        
+def return_to_main_menu(current_window, parent_window):
+    if parent_window == None:
+        messagebox.showerror("Parent window not exist.")
+        return
+
+    if current_window == None:
+        messagebox.showerror("No window to close.")
+        return
+        
+    current_window.destroy()
+    parent_window.deiconify()

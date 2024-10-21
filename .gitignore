@@ -1,5 +1,6 @@
 # PyInstaller output
 build/
 dist/
+spec/
 __pycache__/
 *.spec
