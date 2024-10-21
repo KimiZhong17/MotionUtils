@@ -2,9 +2,13 @@
 some motion utility functions and packages
 
 ## How to use
-For BVH related utils, run
+First, install the pyinstaller package
 ```shell
-generate_bvh_helper.cmd
+pip install pyinstaller
+```
+To pack the utils, run
+```shell
+generate.cmd
 ```
 This will generate a executable file at under 
 ```plain
