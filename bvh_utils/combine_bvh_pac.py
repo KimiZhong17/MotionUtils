@@ -38,8 +38,8 @@ def DoMerge():
             return
         
         # 拼接输出文件路径
-        out_file = os.path.join(out_folder, 'merged_file_' + task_name + '.bvh')
-        csv_file = os.path.join(out_folder, 'output_data_' + task_name + '.csv')
+        out_prefix = os.path.join(out_folder, 'merged_file_' + task_name)
+        csv_prefix = os.path.join(out_folder, 'output_data_' + task_name)
         
         # 确保帧率缩小倍数是合法的数字
         inv_fps_scale = int(fps_scale.get()) if fps_scale.get().isdigit() else 1
@@ -59,7 +59,7 @@ def DoMerge():
             return
 
         # 调用函数进行合并
-        merge_bvh_files(bvh_files, out_file, csv_file, inv_fps_scale, normalization)
+        merge_bvh_files(bvh_files, out_prefix, csv_prefix, inv_fps_scale, normalization)
         
         # 处理完成，关闭窗口并显示消息
         process_window.destroy()
