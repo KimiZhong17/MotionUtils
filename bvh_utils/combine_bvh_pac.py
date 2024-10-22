@@ -1,5 +1,5 @@
 '''
-XSense 动捕数据后处理与合并脚本
+XSens 动捕数据后处理与合并脚本
 written by Kimi Zhong
 Sept.24th, 2024
 '''
@@ -12,7 +12,7 @@ from common.common import return_to_main_menu
 
 # global variables
 task_name_var = None
-src_folder = None
+src_folder_var = None
 out_folder_var = None
 fps_scale = None
 normalize = None
@@ -21,7 +21,7 @@ interface = None
 def OpenSrcFolder():
     selected_folder = askdirectory()
     if selected_folder:  # 检查是否选择了文件夹
-        src_folder.set(selected_folder)
+        src_folder_var.set(selected_folder)
     else:
         messagebox.showinfo("信息", "未选择任何文件夹。")
 
@@ -41,7 +41,7 @@ def DoMerge():
             return
         
         # 获取源文件夹路径
-        folder = src_folder.get()
+        folder = src_folder_var.get()
         if not folder:
             messagebox.showerror("No folder selected.")
             return
@@ -85,13 +85,13 @@ def DoMerge():
 
 # 打开BVH合并界面
 def open_bvh_merger(parent_window=None):
-    global interface, task_name_var, src_folder, out_folder_var, fps_scale, normalize
+    global interface, task_name_var, src_folder_var, out_folder_var, fps_scale, normalize
     
     if parent_window == None:
         interface = Tk()
     else:
         interface = Toplevel(parent_window)
-    interface.geometry("600x300")
+    interface.geometry("500x300")
     interface.title("BVH Merger")
     interface.configure(bg='#F5F5F5')
 
@@ -101,9 +101,9 @@ def open_bvh_merger(parent_window=None):
     Entry(interface, textvariable=task_name_var, width=40).grid(row=0, column=1, padx=10, pady=5, sticky="w")
 
     # 源文件夹选择
-    src_folder = StringVar()
+    src_folder_var = StringVar()
     Label(interface, text="源BVH路径").grid(row=1, column=0, padx=10, pady=5, sticky="w")
-    Entry(interface, textvariable=src_folder, state='readonly', width=40).grid(row=1, column=1, padx=10, pady=5, sticky="w")
+    Entry(interface, textvariable=src_folder_var, state='readonly', width=40).grid(row=1, column=1, padx=10, pady=5, sticky="w")
     Button(interface, text="选择文件夹", command=OpenSrcFolder).grid(row=1, column=2, padx=10, pady=5, sticky="w")
 
     # 输出文件夹选择
@@ -128,6 +128,6 @@ def open_bvh_merger(parent_window=None):
     if parent_window:
         # 返回按钮
         Button(interface, text="返回", bd=5, font=('黑体', 14, 'bold'), height=1, command=lambda: return_to_main_menu(interface, parent_window)).grid(row=6, column=0, columnspan=3, padx=10, pady=5, sticky="we")
-    
-    # interface.mainloop()
-    interface.protocol("WM_DELETE_WINDOW", lambda: (interface.destroy(), parent_window.deiconify()))
+        interface.protocol("WM_DELETE_WINDOW", lambda: (interface.destroy(), parent_window.deiconify()))
+    else:
+        interface.mainloop()
