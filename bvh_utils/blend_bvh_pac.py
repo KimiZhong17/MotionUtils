@@ -154,7 +154,7 @@ def DoBlend():
         messagebox.showerror("错误", str(e))
 
 
-def open_blend_interface(parent_window=None):
+def open_bvh_blend_interface(parent_window=None):
     global interface, src_bvh_var, src_folder_var, out_folder_var, start_frame_var, end_frame_var
     global start_index_var, end_index_var, interval_display_var
     
@@ -227,6 +227,6 @@ def open_blend_interface(parent_window=None):
 
 if __name__ == "__main__":
     try:
-        open_blend_interface()
+        open_bvh_blend_interface()
     except Exception as e:
         print(e)
